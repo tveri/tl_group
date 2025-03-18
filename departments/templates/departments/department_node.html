@@ -1,0 +1,46 @@
+<li class="collapsed">
+  <div class="d-flex align-items-center">
+    <span class="toggle">▶</span>
+    <strong>{{ dept.name }}</strong>
+    <span class="badge bg-secondary ms-2">Level {{ dept.level }}</span>
+  </div>
+
+  {% if dept.children.exists or dept.staff.exists %}
+  <div class="children">
+    <ul>
+      {% for child in dept.children.all %} 
+      {% include "departments/department_node.html" with dept=child %} 
+      {% endfor %} 
+      
+      {% if dept.staff.exists %}
+      <li>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Hire Date</th>
+              <th>Salary</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for emp in dept.staff.all %}
+            <tr>
+              <td>{{ emp.name }}</td>
+              <td>{{ emp.position }}</td>
+              <td>{{ emp.hire_date }}</td>
+              <td>${{ emp.salary }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </li>
+      {% else %}
+      <li>
+        <span>никго нет</span>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+  {% endif %}
+</li>
